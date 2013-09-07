@@ -64,4 +64,26 @@ describe NumbersToWords do
     end
   end
   
+  describe "thousands" do
+    {1000=>"one thousand",2000=>"two thousand",3000=>"three thousand",4000=>"four thousand",
+    5000=>"five thousand",6000=>"six thousand",7000=>"seven thousand",8000=>"eight thousand",
+    9000=>"nine thousand"}.each do |number, word|
+
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+
+    end
+  end
+
+  describe "four digit numbers" do
+    {1001=>"one thousand and one",2020=>"two thousand and twenty",3300=>"three thousand three hundred",4440=>"four thousand four hundred and forty",
+    5555=>"five thousand five hundred and fifty-five"}.each do |number, word|
+
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+
+    end
+  end
 end
