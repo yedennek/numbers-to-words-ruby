@@ -6,15 +6,20 @@ class NumbersToWords
 
   def self.convert number
     return "zero" if number == 0
-    if number%1000 == 0
-      "#{DIGITS[number/1000]} thousand"
+
+    if number_divisible_by_1000 number
+      "#{convert_three_digits number/1000} thousand"
     elsif number > 1000 && number%1000 < 100
-      "#{DIGITS[number/1000]} thousand and #{convert_three_digits number%1000}"
+      "#{convert_three_digits number/1000} thousand and #{convert_three_digits number%1000}"
     elsif number > 1000
-      "#{DIGITS[number/1000]} thousand #{convert_three_digits number%1000}"
+      "#{convert_three_digits number/1000} thousand #{convert_three_digits number%1000}"
     else
       convert_three_digits number
     end
+  end
+
+  def self.number_divisible_by_1000 number
+    number % 1000 == 0
   end
 
   def self.number_divisible_by_100 number
@@ -26,7 +31,7 @@ class NumbersToWords
   end
 
   def self.convert_three_digits number
-    if number < 20  
+    if number < 20
       DIGITS[number]
     elsif number_divisible_by_100 number
       "#{DIGITS[number/100]} hundred"
