@@ -86,4 +86,12 @@ describe NumbersToWords do
 
     end
   end
+
+  describe "halves" do
+    {0.5 => "one half", 6.5 => "six and a half", 11.5 => "eleven and a half", 22.5 => "twenty two and a half", 135.5 => "one hundred and thirty five and a half"}.each do |number, word|
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+    end
+  end
 end
