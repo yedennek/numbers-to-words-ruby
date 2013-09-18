@@ -7,13 +7,15 @@ class NumbersToWords
   def self.convert number
     integer = number.truncate
     fraction = number % 1
-
+    is_negative = number < 0
     return "zero" if integer == 0 && fraction == 0
 
     output = []
-    output << convert_integers(integer) if integer > 0
-    output << convert_fraction(fraction) if fraction > 0
-    output.join " and "
+    output << convert_integers(integer) if integer != 0
+    output << convert_fraction(fraction) if fraction != 0
+    result = output.join " and "
+    result.prepend "minus " if is_negative
+    result
   end
 
   def self.convert_integers integer

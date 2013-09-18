@@ -117,5 +117,14 @@ describe NumbersToWords do
       end
     end
   end
-  
+
+  describe "negatives" do
+    {-0.5 => "minus a half", -6 => "minus six", -13 => "minus thirteen", -256 => "minus two hundred and fifty-six", -4372 => "minus four thousand three hundred and seventy-two"}.each do |number, word|
+
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+    end
+  end
+
 end
