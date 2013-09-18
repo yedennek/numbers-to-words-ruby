@@ -5,15 +5,18 @@ class NumbersToWords
   TENS = ["", "ten", "twenty", "thirty", "forty","fifty","sixty","seventy","eighty","ninety"]
 
   def self.convert number
-    integer = number.truncate
-    fraction = number % 1
-
+    is_negative = number < 0
+    absolute_number = number.abs
+    integer = absolute_number.truncate
+    fraction = absolute_number % 1
     return "zero" if integer == 0 && fraction == 0
 
     output = []
-    output << convert_integers(integer) if integer > 0
-    output << convert_fraction(fraction) if fraction > 0
-    output.join " and "
+    output << convert_integers(integer) if integer != 0
+    output << convert_fraction(fraction) if fraction != 0
+    result = output.join " and "
+    result.prepend "minus " if is_negative
+    result
   end
 
   def self.convert_integers integer
