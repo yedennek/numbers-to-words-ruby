@@ -109,6 +109,18 @@ describe NumbersToWords do
     end
   end
 
+  describe "seven to nine digit numbers" do
+    {1000000=>"one million",2000002=>"two million and two",3000030=>"three million and thirty",4000400=>"four million four hundred",
+    5005000=>"five million five thousand",6060000=>"six million sixty thousand",7700000=>"seven million seven hundred thousand",
+    160450345=>"one hundred and sixty million four hundred and fifty thousand three hundred and forty-five"}.each do |number, word|
+
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+
+    end
+  end
+
   describe "halves" do
     {0.5 => "a half", 6.5 => "six and a half", 11.5 => "eleven and a half", 22.5 => "twenty-two and a half", 135.5 => "one hundred and thirty-five and a half"}.each do |number, word|
 

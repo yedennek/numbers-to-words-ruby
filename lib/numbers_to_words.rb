@@ -4,6 +4,8 @@ class NumbersToWords
   "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"]
   TENS = ["", "ten", "twenty", "thirty", "forty","fifty","sixty","seventy","eighty","ninety"]
 
+  SCALE = {1_000_000=>"million",1_000=>"thousand"}
+
   def self.convert number
     is_negative = number < 0
     absolute_number = number.abs
@@ -12,23 +14,29 @@ class NumbersToWords
     return "zero" if integer == 0 && fraction == 0
 
     output = []
-    output << convert_integers(integer) if integer != 0
+    output << convert_integers(integer, 1_000_000) if integer != 0
     output << convert_fraction(fraction) if fraction != 0
     result = output.join " and "
     result.prepend "minus " if is_negative
     result
   end
 
-  def self.convert_integers integer
+  def self.convert_integers integer, scale
     output = ""
-    if divisible_by? 1000, integer
-      output = "#{convert_three_digits integer/1000} thousand"
-    elsif integer > 1000 && integer%1000 < 100
-      output = "#{convert_three_digits integer/1000} thousand and #{convert_three_digits integer%1000}"
-    elsif integer > 1000
-      output = "#{convert_three_digits integer/1000} thousand #{convert_three_digits integer%1000}"
+    if divisible_by? scale, integer
+      output = "#{convert_three_digits integer/scale} #{SCALE[scale]}"
+    elsif integer > scale && integer%scale < 100
+      output = "#{convert_three_digits integer/scale} #{SCALE[scale]} and #{convert_three_digits integer%scale}"
+    elsif scale == 1_000_000 && integer > scale
+      output = "#{convert_three_digits integer/scale} #{SCALE[scale]} #{convert_integers integer%scale, 1000}"
+    elsif integer > scale
+      output = "#{convert_three_digits integer/scale} #{SCALE[scale]} #{convert_three_digits integer%scale}"
     else
-      output = convert_three_digits integer
+      if scale == 1_000_000
+        output = convert_integers integer, 1_000
+      else
+        output = convert_three_digits integer
+      end
     end
     output
   end
