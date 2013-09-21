@@ -127,4 +127,13 @@ describe NumbersToWords do
     end
   end
 
+  describe "other fractions" do
+    {0.25 => "a bit", 6.75 => "six and a bit"}.each do |number, word|
+
+      it "converts #{number} to #{word}" do
+        expect(NumbersToWords.convert(number)).to eq word
+      end
+    end
+  end
+
 end
