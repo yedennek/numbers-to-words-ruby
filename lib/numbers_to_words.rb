@@ -21,7 +21,7 @@ class NumbersToWords
 
   def self.convert_integers integer
     output = ""
-    if divisible_by_1000? integer
+    if divisible_by? 1000, integer
       output = "#{convert_three_digits integer/1000} thousand"
     elsif integer > 1000 && integer%1000 < 100
       output = "#{convert_three_digits integer/1000} thousand and #{convert_three_digits integer%1000}"
@@ -41,30 +41,18 @@ class NumbersToWords
     end
   end
 
-  def self.divisible_by_1000? number
-    number % 1000 == 0
-  end
-
-  def self.divisible_by_100? number
-    number % 100 == 0
-  end
-
-  def self.divisible_by_10? number
-    number % 10 == 0
-  end
-
-  def self.divisible_by_1? number
-    number % 1 == 0
+  def self.divisible_by? divisor, number
+    number % divisor == 0
   end
 
   def self.convert_three_digits number
     if number < 20
       DIGITS[number]
-    elsif divisible_by_100? number
+    elsif divisible_by? 100, number
       "#{DIGITS[number/100]} hundred"
     elsif number > 100
       "#{DIGITS[number/100]} hundred and #{convert_three_digits number%100}"
-    elsif divisible_by_10? number
+    elsif divisible_by? 10, number
       TENS[number/10]
     else
       "#{TENS[number/10]}-#{DIGITS[number%10]}"
